@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { Text } from 'react-native'
 import { styles } from './styles'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Background } from '../../components/Background'
@@ -9,8 +11,8 @@ import { THEME } from '../../theme'
 import logoImg from '../../assets/logo-nlw-esports.png'
 import { Heading } from '../../components/Heading'
 import { DuoCard, DuoCardProps } from '../../components/DuoCard'
-import { useEffect, useState } from 'react'
 import { api } from '../../lib/api'
+
 export function Game() {
   const [duos, setDuos] = useState<DuoCardProps[]>([])
   const navigation = useNavigation()
@@ -55,8 +57,15 @@ export function Game() {
           )}
           horizontal
           style={styles.containerList}
-          contentContainerStyle={styles.contentList}
+          contentContainerStyle={[
+            duos.length > 0 ? styles.contentList : styles.emptyListContent,
+          ]}
           showsHorizontalScrollIndicator={false}
+          ListEmptyComponent={() => (
+            <Text style={styles.emptyListText}>
+              Não há anúncios publicados para esse jogo
+            </Text>
+          )}
         />
       </SafeAreaView>
     </Background>
